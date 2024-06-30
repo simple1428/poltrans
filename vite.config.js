@@ -10,4 +10,11 @@ export default defineConfig({
         }),
         react(),
     ],
+    server: {
+        host: 'localhost', // Menggunakan localhost sebagai host
+        port: 5173,        // Port yang ingin Anda gunakan
+        hmr: {
+            host: 'localhost' // Menggunakan localhost untuk HMR
+        }
+    }
 });

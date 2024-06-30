@@ -13,8 +13,13 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                'nunito': ['Nunito', 'sans-serif'],
+                'roboto': ['Roboto', 'sans-serif'],
             },
+            colors: {
+                'primary': '#134339',
+                'secondary': '#F3B11C',
+              },
         },
     },
 
