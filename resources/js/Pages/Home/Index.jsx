@@ -12,13 +12,13 @@ import {
     TabPanel,
     TabPanels,
 } from "@headlessui/react";
-import { Head } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import clsx from "clsx";
 import React, { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import Section from "@/Components/Section";
-export default function Index() {
+export default function Index({ routes }) {
     return (
         <>
             <Head title="Pemesanan Tiket Transportasi" />
@@ -29,7 +29,7 @@ export default function Index() {
                             Experience Your Journey Safely with First Class
                             Hospitality
                         </h1>
-                        <BookingSection />
+                        <BookingSection routes={routes} />
                         <ServicesSection />
                         <SubscriptionSection />
                     </Section>
@@ -51,16 +51,43 @@ const cities = [
     { id: 10, name: "Pati" },
 ];
 
-function BookingSection() {
-    const [selected, setSelected] = useState(cities[0]);
+function BookingSection({ routes }) {
+    const { data, setData } = useForm({
+        departure_city: "",
+        arrival_city: "",
+        departure_date: "",
+    });
+
+    const uniqueDepartureCities = [
+        ...new Set(routes.map((item) => item.departure_city)),
+    ];
+    const [filteredArrivalCities, setFilteredArrivalCities] = useState([]);
+
+    const handleDepartureChange = (city) => {
+        const departureCity = city;
+        setData("departure_city", departureCity);
+
+        const arrivalCities = routes
+            .filter((route) => route.departure_city === departureCity)
+            .map((route) => route.arrival_city);
+
+        setFilteredArrivalCities(arrivalCities);
+        console.log(filteredArrivalCities);
+    };
+
+    const handleArrivalChange = (city) => {
+        const arrivalCity = city;
+        setData("arrival_city", arrivalCity);
+    };
+
     const [queryDeparture, setQueryDeparture] = useState("");
     const [departure, setDeparture] = useState("");
     const [arrival, setArrival] = useState("");
     const filteredCities =
         queryDeparture === ""
-            ? cities
-            : cities.filter((citties) => {
-                  return citties.name
+            ? routes
+            : routes.filter((route) => {
+                  return route.departure_city
                       .toLowerCase()
                       .includes(queryDeparture.toLowerCase());
               });
@@ -127,8 +154,8 @@ function BookingSection() {
                                                     <span className="text-secondary text-xs">
                                                         <FaArrowRight />
                                                     </span>{" "}
-                                                    {departure
-                                                        ? departure
+                                                    {data.departure_city
+                                                        ? data.departure_city
                                                         : "Kota Keberangkatan"}
                                                 </label>
                                             </MenuButton>
@@ -163,17 +190,16 @@ function BookingSection() {
                                                                     onClick={(
                                                                         event
                                                                     ) => {
-                                                                        setDeparture(
-                                                                            city.name
-                                                                        ),
-                                                                            setQueryDeparture(
-                                                                                city.name
-                                                                            );
+                                                                        handleDepartureChange(
+                                                                            city.departure_city
+                                                                        );
                                                                     }}
                                                                     key={i}
                                                                     className="border-b cursor-pointer hover:bg-black/20 py-1 px-2"
                                                                 >
-                                                                    {city.name}
+                                                                    {
+                                                                        city.departure_city
+                                                                    }
                                                                 </MenuItem>
                                                             );
                                                         }
@@ -189,8 +215,8 @@ function BookingSection() {
                                                     <span className="text-secondary text-xs">
                                                         <FaArrowRight />
                                                     </span>{" "}
-                                                    {arrival
-                                                        ? arrival
+                                                    {data.arrival_city
+                                                        ? data.arrival_city
                                                         : "Kota Tujuan"}
                                                 </label>
                                             </MenuButton>
@@ -200,7 +226,7 @@ function BookingSection() {
                                                 anchor="bottom start"
                                                 className="w-72  origin-top-left rounded-lg border  shadow-lg bg-white   p-4 text-sm/6   transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0 z-50"
                                             >
-                                                <div>
+                                                {/* <div>
                                                     <TextInput
                                                         className={clsx(
                                                             "mt-3 block w-full rounded-lg border border-black/20 bg-white  py-1.5 px-3 text-sm/6  ",
@@ -215,27 +241,22 @@ function BookingSection() {
                                                             )
                                                         }
                                                     />
-                                                </div>
+                                                </div> */}
                                                 <ul className="border-t mt-2 h-72 flex flex-col">
-                                                    {filteredCities.map(
+                                                    {filteredArrivalCities.map(
                                                         (city, i) => {
                                                             return (
                                                                 <MenuItem
-                                                                    as="div"
-                                                                    onClick={(
-                                                                        event
-                                                                    ) => {
-                                                                        setArrival(
-                                                                            city.name
-                                                                        ),
-                                                                            setQueryDeparture(
-                                                                                city.name
-                                                                            );
+                                                                    as="li"
+                                                                    onClick={() => {
+                                                                        handleArrivalChange(
+                                                                            city
+                                                                        );
                                                                     }}
                                                                     key={i}
                                                                     className="border-b cursor-pointer hover:bg-black/20 py-1 px-2"
                                                                 >
-                                                                    {city.name}
+                                                                    {city}
                                                                 </MenuItem>
                                                             );
                                                         }

@@ -15,9 +15,21 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        User::create(
+            [
+                'name' => 'Test',
+                'NIK' => '1234567890123456',
+                'phoneNumber' => '089619080300',
+                'email' => 'test@gmail.com',
+                'password' => bcrypt('test123'),
+                'role'=> 1
+            ]
+            );
+            $this->call([
+                CitySeeder::class,
+                FleetSeeder::class,
+                DriverSeeder::class,
+                RouteSeeder::class,
+            ]);
     }
 }
