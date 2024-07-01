@@ -1,6 +1,6 @@
 import React from "react";
 import Section from "../Section";
-
+import { IoCallSharp } from "react-icons/io5";
 const Footer = () => {
     return (
         <footer className="bg-primary text-white p-8 ">
@@ -9,21 +9,8 @@ const Footer = () => {
                     <h2 className="text-2xl font-bold">Poltekun Trans</h2>
                     <div className="mt-4">
                         <p className="text-secondary">24H Call Center</p>
-                        <button className="bg-secondary text-primary px-4 py-2 rounded mt-2 flex items-center">
-                            <svg
-                                className="w-6 h-6 mr-2"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M3 10h1l2 2-2 2H3v-4zm0 6h1l2 2-2 2H3v-4zm0-12h1l2 2-2 2H3V4zm4 0h1l2 2-2 2H7V4zm0 12h1l2 2-2 2H7v-4zm4-12h1l2 2-2 2h-1V4zm0 12h1l2 2-2 2h-1v-4zm4-12h1l2 2-2 2h-1V4zm0 12h1l2 2-2 2h-1v-4zm4-12h1l2 2-2 2h-1V4zm0 12h1l2 2-2 2h-1v-4z"
-                                ></path>
-                            </svg>
+                        <button className="bg-secondary text-primary px-4 py-2 rounded mt-2 flex items-center gap-2">
+                            <IoCallSharp />
                             Call Center
                         </button>
                     </div>

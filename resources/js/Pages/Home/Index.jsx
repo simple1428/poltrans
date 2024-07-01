@@ -18,6 +18,7 @@ import React, { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import Section from "@/Components/Section";
+import PrimaryButton from "@/Components/PrimaryButton";
 export default function Index({ routes }) {
     return (
         <>
@@ -56,11 +57,9 @@ function BookingSection({ routes }) {
         departure_city: "",
         arrival_city: "",
         departure_date: "",
+        number_of_pasenger: "",
     });
 
-    const uniqueDepartureCities = [
-        ...new Set(routes.map((item) => item.departure_city)),
-    ];
     const [filteredArrivalCities, setFilteredArrivalCities] = useState([]);
 
     const handleDepartureChange = (city) => {
@@ -72,17 +71,18 @@ function BookingSection({ routes }) {
             .map((route) => route.arrival_city);
 
         setFilteredArrivalCities(arrivalCities);
-        console.log(filteredArrivalCities);
     };
 
     const handleArrivalChange = (city) => {
         const arrivalCity = city;
         setData("arrival_city", arrivalCity);
     };
+    const handleSearch = (e) => {
+        e.preventDefault();
+        console.log(data);
+    };
 
     const [queryDeparture, setQueryDeparture] = useState("");
-    const [departure, setDeparture] = useState("");
-    const [arrival, setArrival] = useState("");
     const filteredCities =
         queryDeparture === ""
             ? routes
@@ -113,7 +113,7 @@ function BookingSection({ routes }) {
             </TabList>
             <TabPanels className="p-4 md:w-3/4 h-72">
                 <TabPanel>
-                    <form className="w-full">
+                    <form className="w-full" onSubmit={handleSearch}>
                         <div className="grid grid-cols-2 gap-3">
                             <div>
                                 <h3 className="font-bold text-primary dark:text-green-400 mb-2">
@@ -187,9 +187,7 @@ function BookingSection({ routes }) {
                                                             return (
                                                                 <MenuItem
                                                                     as="li"
-                                                                    onClick={(
-                                                                        event
-                                                                    ) => {
+                                                                    onClick={() => {
                                                                         handleDepartureChange(
                                                                             city.departure_city
                                                                         );
@@ -226,22 +224,6 @@ function BookingSection({ routes }) {
                                                 anchor="bottom start"
                                                 className="w-72  origin-top-left rounded-lg border  shadow-lg bg-white   p-4 text-sm/6   transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0 z-50"
                                             >
-                                                {/* <div>
-                                                    <TextInput
-                                                        className={clsx(
-                                                            "mt-3 block w-full rounded-lg border border-black/20 bg-white  py-1.5 px-3 text-sm/6  ",
-                                                            "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25 sticky top-0"
-                                                        )}
-                                                        value={queryDeparture}
-                                                        placeholder="Search"
-                                                        onChange={(event) =>
-                                                            setQueryDeparture(
-                                                                event.target
-                                                                    .value
-                                                            )
-                                                        }
-                                                    />
-                                                </div> */}
                                                 <ul className="border-t mt-2 h-72 flex flex-col">
                                                     {filteredArrivalCities.map(
                                                         (city, i) => {
@@ -283,6 +265,12 @@ function BookingSection({ routes }) {
                                                 "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25",
                                                 "*:text-black"
                                             )}
+                                            onChange={(e) => {
+                                                setData(
+                                                    "number_of_pasenger",
+                                                    e.target.value
+                                                );
+                                            }}
                                         >
                                             <option value="1">1</option>
                                             <option value="2">2</option>
@@ -296,30 +284,28 @@ function BookingSection({ routes }) {
                                 </div>
                                 <div className="grid gris-cols-2 w-full mb-4 items-center">
                                     <div>
-                                        <label className="block text-gray-700 mb-2">
+                                        <label className="block font-semibold text-gray-700 mb-2">
                                             Tanggal Keberangkatan
                                         </label>
                                         <TextInput
+                                            onChange={(e) => {
+                                                setData(
+                                                    "departure_date",
+                                                    e.target.value
+                                                );
+                                            }}
+                                            value={data.departure_date}
                                             type="date"
                                             className="w-full px-4 py-2 border-b border-0 border-secondary rounded-none focus:outline-none focus:ring focus:border-secondary"
                                         />
                                     </div>
-                                    {/* <div>
-                                        <label className="block text-gray-700 mb-2">
-                                            Waktu Keberangkatan
-                                        </label>
-                                        <TextInput
-                                            type="time"
-                                            className="w-full px-4 py-2 border-b border-0 border-secondary rounded-none focus:outline-none focus:ring focus:border-secondary"
-                                        />
-                                    </div> */}
                                 </div>
                             </div>
                         </div>
                         <div className="flex justify-end mt-4">
-                            <button className="bg-secondary text-white py-2 px-6 rounded-lg">
+                            <PrimaryButton className="bg-secondary text-white py-2 px-6 rounded-lg">
                                 Cari
-                            </button>
+                            </PrimaryButton>
                         </div>
                     </form>
                 </TabPanel>

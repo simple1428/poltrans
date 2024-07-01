@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController\About;
 use App\Http\Controllers\HomeController\Index as Home;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -7,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', [Home::class ,'index'])->name('home');
+Route::get('/tentang-kami', [About::class ,'index'])->name('about');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

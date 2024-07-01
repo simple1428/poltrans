@@ -5,8 +5,10 @@ import React from "react";
 export default function HomeLayout({ children }) {
     return (
         <div className="flex flex-col justify-between min-h-screen">
-            <Navbar />
-            <main className="">{children}</main>
+            <div className="">
+                <Navbar />
+                <main className="">{children}</main>
+            </div>
             <Footer />
         </div>
     );

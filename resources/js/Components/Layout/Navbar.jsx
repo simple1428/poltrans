@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, usePage } from "@inertiajs/react";
 import Section from "../Section";
-import { Button } from "@headlessui/react";
 
 const Navbar = () => {
     const { auth } = usePage().props;
@@ -16,7 +15,7 @@ const Navbar = () => {
                 </Link>
                 <div className="flex space-x-4 text-sm">
                     <Link
-                        href="#tentang-kami"
+                        href={route("about")}
                         className="hover:text-secondary duration-300 transition"
                     >
                         Tentang Kami
